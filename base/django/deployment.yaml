@@ -1,0 +1,60 @@
+# Customizable uwsgi deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+      tier: web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+      labels:
+        app: django
+        app.kubernetes.io/component: django
+        tier: web
+    spec:
+      containers:
+        - name: uwsgi
+          image: django:develop
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            exec:
+              command:
+                - /entrypoint.sh
+                - launch-readiness-probe
+            failureThreshold: 0
+            initialDelaySeconds: 45
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - /entrypoint.sh
+                - launch-readiness-probe
+            failureThreshold: 0
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: django-configmap
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
