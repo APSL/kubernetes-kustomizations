@@ -28,7 +28,7 @@ spec:
           image: django:develop
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
           livenessProbe:
             exec:
               command:
