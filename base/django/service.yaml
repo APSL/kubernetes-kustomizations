@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: django
   labels:
-    app.kubernetes.io/name: django
+    app: django
 spec:
   type: NodePort
   ports:
@@ -11,4 +11,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app.kubernetes.io/name: django
+    app: django
