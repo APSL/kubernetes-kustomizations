@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-migrations-job
+spec:
+  backoffLimit: 10
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      containers:
+      - name: migration-django
+        image: django:develop
+        command: ["/bin/sh", "-c"]
+        args: ["python manage.py migrate"]
+        envFrom:
+          - configMapRef:
+              name: django-configmap
+        resources:
+          limits:
+            cpu: 250m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      restartPolicy: Never
+      initContainers:
+        - name: init-wait-sql-host
+          image: busybox:1.31
+          command: ['sh', '-c', 'until nslookup $DATABASE_HOST > /dev/null; do sleep 2; echo "Waiting for sql host service available"; done; echo "Service ready!"']
+          envFrom:
+            - configMapRef:
+                name: django-configmap

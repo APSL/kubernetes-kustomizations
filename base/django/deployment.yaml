@@ -35,7 +35,7 @@ spec:
                 - /entrypoint.sh
                 - launch-readiness-probe
             failureThreshold: 0
-            initialDelaySeconds: 45
+            initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 5
           readinessProbe:
@@ -55,13 +55,18 @@ spec:
               cpu: 1024m
               memory: 1024Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
-       initContainers:
+              cpu: 256m
+              memory: 256Mi
+      initContainers:
+        - name: init-wait-sql-host
+          image: busybox:1.31
+          command: ['sh', '-c', 'until nslookup $DATABASE_HOST > /dev/null; do sleep 2; echo "Waiting for sql host service available"; done; echo "Service ready!!"']
+          envFrom:
+            - configMapRef:
+                name: django-configmap
         - name: init-wait-migrations
           image: django:develop
           command: ['sh', '-c', 'until python manage.py migrate --check; do sleep 5; echo "Waiting for django-migrations"; done;']
           envFrom:
             - configMapRef:
                 name: django-configmap
-
