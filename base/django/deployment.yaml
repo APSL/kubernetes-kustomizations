@@ -57,11 +57,11 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-        initContainers:
-          - name: init-wait-migrations
-            image: django:develop
-            command: ['sh', '-c', 'until python manage.py migrate --check; do sleep 5; echo "Waiting for django-migrations"; done;']
-            envFrom:
-              - configMapRef:
-                  name: django-configmap
+       initContainers:
+        - name: init-wait-migrations
+          image: django:develop
+          command: ['sh', '-c', 'until python manage.py migrate --check; do sleep 5; echo "Waiting for django-migrations"; done;']
+          envFrom:
+            - configMapRef:
+                name: django-configmap
 
