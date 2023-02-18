@@ -11,3 +11,8 @@ patchesJson6902:
       kind: ConfigMap
       name: django-configmap
     path: patches/configmap.yaml
+  - target:
+      version: v1
+      kind: Job
+      name: django-migrations-job
+    path: patches/migration-job.yaml
