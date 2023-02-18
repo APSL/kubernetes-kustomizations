@@ -55,8 +55,8 @@ spec:
               cpu: 1024m
               memory: 1024Mi
             requests:
-              cpu: 256m
-              memory: 256Mi
+              cpu: 128m
+              memory: 128Mi
       initContainers:
         - name: init-wait-sql-host
           image: busybox:1.31
