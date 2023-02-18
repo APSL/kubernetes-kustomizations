@@ -1,0 +1,16 @@
+- op: remove
+  path: /data/DATABASE_HOST
+- op: remove
+  path: /data/DATABASE_PORT
+- op: remove
+  path: /data/DATABASE_NAME
+- op: remove
+  path: /data/DATABASE_USER
+- op: remove
+  path: /data/DATABASE_PASSWORD
+- op: replace
+  path: /data/COMPRESS_OFFLINE
+  value: "True"
+- op: replace
+  path: /data/ENABLE_WHITENOISE
+  value: "True"
