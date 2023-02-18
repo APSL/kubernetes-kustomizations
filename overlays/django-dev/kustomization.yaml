@@ -7,13 +7,8 @@ resources:
   - ../../base/django/
 
 patches:
-  - target:
+  - path: patches/django-migration.yaml
+    target:
       version: v1
       kind: Job
       name: django-migrations-job
-  patch: |-
-
-    # add with inline operation
-    - op: add
-      path: /spec/ttlSecondsAfterFinished
-      value: 0

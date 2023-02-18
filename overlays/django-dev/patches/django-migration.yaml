@@ -1,0 +1,5 @@
+kind: Job
+metadata:
+  name: django-migration-job
+spec:
+  ttlSecondsAfterFinished: 0
