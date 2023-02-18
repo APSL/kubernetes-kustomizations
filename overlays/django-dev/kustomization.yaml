@@ -5,3 +5,15 @@ resources:
   - ../../base/redis-docker/
   - ../../base/postgres-docker/
   - ../../base/django/
+
+patches:
+  - target:
+      version: v1
+      kind: Job
+      name: django-migrations-job
+  patch: |-
+
+    # add with inline operation
+    - op: add
+      path: /spec/ttlSecondsAfterFinished
+      value: 0
