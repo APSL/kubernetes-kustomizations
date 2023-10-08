@@ -6,7 +6,7 @@ resources:
   - ../../base/django/
 
 patchesJson6902:
-  - target:
+    - target:
       version: v1
       kind: ConfigMap
       name: django-configmap
