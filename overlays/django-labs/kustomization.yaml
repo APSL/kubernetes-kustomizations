@@ -6,13 +6,15 @@ resources:
   - ../../base/django/
 
 patches:
-  - target:
-      version: v1
-      kind: ConfigMap
-      name: django-configmap
-    path: patches/configmap.yaml
-  - target:
-      version: v1
-      kind: Job
-      name: django-migrations-job
-    path: patches/migration-job.yaml
+- path: patches/configmap.yaml
+  target:
+    version: v1
+    kind: ConfigMap
+    name: django-configmap
+  
+- path: patches/migration-job.yaml
+  target:
+    version: v1
+    kind: Job
+    name: django-migrations-job
+  
